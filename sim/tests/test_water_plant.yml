@@ -1,0 +1,50 @@
+settings:
+  speed: 1
+
+devices:
+  - !reservoir
+    label: reservoir1
+    volume: 1000
+    fluid: !water {}
+  - !valve
+    label: valve1
+    state: 'open'
+  - !pump
+    label: pump1
+    state: 'on'
+  - !valve
+    label: valve2
+    state: 'open'
+  - !tank
+    label: tank1
+
+connections:
+  reservoir1:
+    outputs: 
+     - valve1
+  valve1:
+    outputs:
+     - pump1
+  pump1:
+    outputs:
+     - valve2
+  valve2:
+    outputs:
+     - tank1
+
+sensors:
+  - !volume
+    label: sensor1
+    connected_to: reservoir1
+  - !volume
+    label: sensor2
+    connected_to: tank1
+  - !state
+    label: sensor3
+    connected_to: valve1
+  - !state
+    label: sensor4
+    connected_to: valve2
+  - !state
+    label: sensor5
+    connected_to: pump1

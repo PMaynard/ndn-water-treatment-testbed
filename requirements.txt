@@ -1,0 +1,11 @@
+PyYAML==3.12
+pytest==3.0.7
+PyYAML==3.12
+pytest==3.0.7
+bcrypt==3.1.7
+pymodbus==1.2.0
+pyasn1==0.2.3
+cryptography==2.7 # ?? might not need
+-e git+http://github.com/sintax1/plcrpcservice.git#egg=plcrpcservice
+pyndn==2.9b1
+pandas

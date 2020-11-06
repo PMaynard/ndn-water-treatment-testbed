@@ -1,0 +1,83 @@
+version: '2.1'
+services:
+  hmi:
+    build: hmi
+    image: "aqua-hmi-tcp"
+    ports:
+     - "8080:8080"
+    networks:
+     - scada-ot-1
+    links:
+      - plc1
+      - plc2
+      - plc3
+      - chlorinatorplc
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    hostname: hmi
+
+# This should be built outside of this directory
+  scadasim:
+    image: "aqua-sim"
+    networks:
+      - scada-ot-1
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    hostname: scadasim
+    tty: true
+    stdin_open: true
+
+  plc1:
+    build: plc
+    image: "aqua-plc-tcp"
+    ports: 
+      - 501:502
+    networks:
+      - scada-ot-1
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    depends_on:
+      - "scadasim"
+    hostname: plc1
+
+  plc2:
+    build: plc
+    image: "aqua-plc-tcp"
+    ports: 
+      - 502:502
+    networks:
+      - scada-ot-1
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    depends_on:
+      - "scadasim"
+    hostname: plc2
+
+  plc3:
+    build: plc
+    image: "aqua-plc-tcp"
+    ports: 
+      - 503:502
+    networks:
+      - scada-ot-1
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    depends_on:
+      - "scadasim"
+    hostname: plc3
+
+  chlorinatorplc:
+    build: plc
+    image: "aqua-plc-tcp"
+    ports: 
+      - 500:502
+    networks:
+      - scada-ot-1
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    depends_on:
+      - "scadasim"
+    hostname: chlorinatorplc
+
+networks:
+  scada-ot-1:
